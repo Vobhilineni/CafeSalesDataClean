@@ -1,0 +1,36 @@
+This file explains the steps followed to clean the data.
+
+After careful observation of the data below are the steps involved in cleaning of the cafe sales data:
+
+1. In both the numerical and categorical data except the Transaction id, we have nan, ERROR and UNKNOWN values. So, change the Error and Unknown values to be nan first which will make this replace over the data frame altogether and not required to be done for each field later on.
+
+Dealing with the numerical fields:
+2. Create a df with unique rows of Item and PPU without any nan values (because our values in Item field has only one price and no chance of duplication)
+3. Left Join the df from above step to the main DF using the Item field so the new PPU field is added (this will ensure that even them Price field is blank but when Item is filled we'll have the price field populated in via the new column)
+4. Now let's fillna for the new PPU field with values from actual Price Per Unit field (As the above step will give only values where the item is filled, we have Price filled in actual data when there is no item value. so, filling the na's in new column with the actual column will reduce the nulls)
+5. Delete the actual PPU field and rename the new PPU field to be the actual name
+6. Now let's create a DF with Transaction ID, Quantity, Total Spent where the PPU is blank
+7. Remove the nulls from the quantity, total spent column of this DF
+8. Change the dtypes of the Quantity and Total Spent fields to float as they are objects right now
+9. Create a new field in this DF, PPU from Quantity and Total Spent by doing Total Spent/Quantity(This will ensure that we have the new price column filled when both the quantity and total spent are filled, although the actual price column is null)
+10. Join the new PPU using the Transaction Id
+11. Fillna for the new PPU with the values from existing PPU. Drop the existing PPU and rename the new PPU with actual name (from the above merge step we only added price field where the actual price field is null. So, doing this will ensure the nulls in the new price field will be filled)
+12. Covert the above three columns Price, Quantity and Total Spent to Float
+13. create new quantity field with the existing quantity field but fillna with the calc Totalspent/PPU
+14. Create new Total Spent field with existing total spent fields but fillna with the calc newquantity*PPU
+15. Drop the actual Quantity, Total spent field
+16. Rename the new Quantity and Total Spent fields to be correct ones
+17. There are few nan values in the numerical fields, so we need to fill them with some valid values. Find the median of the numerical columns
+18. Median is 3:PPU, 3:Quantity, 8:Spend. As we know Total spend is product of PPU and Quantity let's fill 9 for nan's because our median of price and Quantity is 3
+
+Dealing with the categorical fields:
+19. Now let's create a group object. Groupby with PPU.
+20. Now using this grouped object to fillna for the Item based on the mode of the grouped PPU, remove the actual Item column and rename the new column
+21. Sort the dF based on the Transaction ID
+22. Even though the dates are scrambled and are not incremental based on the Transaction ID, we can do a ffill to fill the na in date field
+23. create another group object. Group by the Item
+24. Use the Group by Item grouped object to fill in the nan for Payment Method and Location
+25. Reset the index
+
+26. Save the cleaned data file
+
