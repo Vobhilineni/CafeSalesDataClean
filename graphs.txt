@@ -1,0 +1,6 @@
+Total spent by month in line graph
+No of orders and no of products sold in each month in a line graph
+A bar chart with total spent on each item
+A bar chart with number of transaction per each payment method 
+A pie chart with no of orders based on Location
+A scatter plot with total spent on each item and size of the points should be based on the Quantity sold
